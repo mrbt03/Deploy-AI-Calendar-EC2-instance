@@ -15,27 +15,20 @@ def create_service(client_secret_file, api_name, api_version, *scopes, prefix=''
     token_dir = 'token files'
     token_file = f'token_{API_SERVICE_NAME}_{API_VERSION}{prefix}.json'
 
-    # Check if token dir exists; if not, create the folder
+    ### Check if token dir exists first, if not, create the folder
     if not os.path.exists(os.path.join(working_dir, token_dir)):
         os.mkdir(os.path.join(working_dir, token_dir))
 
-    # Load existing token file if it exists
     if os.path.exists(os.path.join(working_dir, token_dir, token_file)):
-        creds = Credentials.from_authorized_user_file(
-            os.path.join(working_dir, token_dir, token_file), SCOPES
-        )
+        creds = Credentials.from_authorized_user_file(os.path.join(working_dir, token_dir, token_file), SCOPES)
     
-    # If no valid credentials, authenticate
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
-            # Use run_console() instead of run_local_server() for EC2 compatibility
-            # This will print a URL; follow it in a browser, then enter the code in the terminal
-            creds = flow.run_console()
+            creds = flow.run_local_server(port=0)
 
-        # Save the credentials for future use
         with open(os.path.join(working_dir, token_dir, token_file), 'w') as token:
             token.write(creds.to_json())
 
