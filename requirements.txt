@@ -1,7 +1,7 @@
 ### dependency
 docker
-streamlit
 swarm
+streamlit
 datetime
 google-auth-oauthlib
 google-api-python-client
