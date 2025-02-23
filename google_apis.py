@@ -16,7 +16,7 @@ def create_service(client_secret_file, api_name, api_version, *scopes):
         flow = Flow.from_client_secrets_file(
             CLIENT_SECRET_FILE,
             scopes=SCOPES,
-            redirect_uri='http://<ec2-public-ip>:8501'  # Replace with your EC2 IP
+            redirect_uri='http://<ec2-3.15.6.209>:8501'  # Replace with your EC2 IP
         )
         auth_url, state = flow.authorization_url(prompt='consent')
         st.session_state['oauth_state'] = state
