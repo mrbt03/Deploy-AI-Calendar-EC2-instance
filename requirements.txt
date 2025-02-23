@@ -1,4 +1,5 @@
 ### dependency
+docker
 streamlit
 swarm
 datetime
